@@ -1,4 +1,7 @@
-var tictactoe = {};
+var tictactoe = {
+  playerTurn: 'Player A',
+  marker: 'X'
+};
 tictactoe.drawBoard = function(size){
   var row = '';
   var allRows = '';
@@ -11,6 +14,19 @@ tictactoe.drawBoard = function(size){
   $('table').append(allRows);
 };
 
+tictactoe.startGame = function(){
+  $('td').on('click',function(e){
+    e.preventDefault();
+    if(tictactoe.playerTurn === 'Player A'){
+      tictactoe.playerTurn = 'Player B';
+      tictactoe.marker = 'X';
+    } else {
+      tictactoe.playerTurn = 'Player A';
+      tictactoe.marker = 'O';
+    }
+    $(this).html(tictactoe.marker);
+  })
+}
 
 $(document).ready(function(){
   tictactoe.drawBoard(3);
