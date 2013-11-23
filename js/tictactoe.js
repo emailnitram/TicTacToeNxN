@@ -23,9 +23,11 @@ tictactoe.startGame = function(){
     e.preventDefault();
     if(tictactoe.playerTurn === 'Player A'){
       tictactoe.playerTurn = 'Player B';
+      $('#currentPlayer').html(tictactoe.playerTurn)
       tictactoe.marker = 'X';
     } else {
       tictactoe.playerTurn = 'Player A';
+      $('#currentPlayer').html(tictactoe.playerTurn)
       tictactoe.marker = 'O';
     }
     $(this).html(tictactoe.marker);
@@ -58,9 +60,29 @@ tictactoe.checkForWinner = function(row,col,marker){
     }
     if(counter === tictactoe.size) tictactoe.winner(marker);
   };
+  function checkDiags(){
+    var diags = {};
+    for(var i = 1; i <= tictactoe.size; i++){
+      var mark = $('table tr:nth-child('+i+')').find('td:nth-child('+i+')').text();
+      diags[mark] = true;
+    }
+    if(diags[''] !== true && Object.keys(diags).length === 1) tictactoe.winner(marker);
+  };
+  function checkDiagsLeft(){
+    var diags = {};
+    var j = tictactoe.size;
+    for(var i = 1; i <= tictactoe.size; i++){
+      var mark = $('table tr:nth-child('+i+')').find('td:nth-child('+j+')').text();
+      diags[mark] = true;
+      j--;
+    }
+    if(diags[''] !== true && Object.keys(diags).length === 1) tictactoe.winner(marker);
+    console.log('current',diags);
+  };
   checkRows();
   checkCols();
-
+  checkDiags();
+  checkDiagsLeft();
 };
 
 tictactoe.winner = function(marker){
