@@ -1,8 +1,10 @@
 var tictactoe = {
   playerTurn: 'Player A',
-  marker: 'X'
+  marker: 'X',
+  size: 0
 };
 tictactoe.drawBoard = function(size){
+  tictactoe.size = size;
   var row = '';
   var allRows = '';
   for(var i = 0; i < size; i++){
@@ -31,15 +33,42 @@ tictactoe.startGame = function(){
   })
 }
 
-tictactoe.checkForWinner = function(row,col){
+tictactoe.checkForWinner = function(row,col,marker){
   row = row + 1;
   var currentRow = $('table tr:nth-child('+row+')')[0].children;
+  var currentCols = [];
+  $('table tr').each(function(i,elem){
+    currentCols.push($(elem).find('td')[col]);
+  });
   function checkRows(){
+    var counter = 0;
     for(var i = 0; i < currentRow.length; i++){
-      console.log(currentRow[i].innerHTML)
+      if(currentRow[i].innerHTML === marker){
+        counter++;
+      }
     }
+    if(counter === tictactoe.size) tictactoe.winner(marker);
+  };
+  function checkCols(){
+    var counter = 0;
+    for(var i = 0; i < currentCols.length; i++){
+      if(currentCols[i].innerHTML === marker){
+        counter++;
+      }
+    }
+    if(counter === tictactoe.size) tictactoe.winner(marker);
   };
   checkRows();
+  checkCols();
+
+};
+
+tictactoe.winner = function(marker){
+  if(marker === 'X'){
+    alert('Player A is the winner!!')
+  } else {
+    alert('Player B is the winner!!')
+  }
 };
 
 $(document).ready(function(){
