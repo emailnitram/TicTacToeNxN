@@ -27,12 +27,19 @@ tictactoe.startGame = function(){
       tictactoe.marker = 'O';
     }
     $(this).html(tictactoe.marker);
-    tictactoe.checkForWinner(row,col);
+    tictactoe.checkForWinner(row,col,tictactoe.marker);
   })
 }
 
 tictactoe.checkForWinner = function(row,col){
-  console.log([row,col]);
+  row = row + 1;
+  var currentRow = $('table tr:nth-child('+row+')')[0].children;
+  function checkRows(){
+    for(var i = 0; i < currentRow.length; i++){
+      console.log(currentRow[i].innerHTML)
+    }
+  };
+  checkRows();
 };
 
 $(document).ready(function(){
