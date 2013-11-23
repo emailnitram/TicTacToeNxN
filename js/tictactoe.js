@@ -1,7 +1,8 @@
 var tictactoe = {
   playerTurn: 'Player A',
   marker: 'X',
-  size: 0
+  size: 0,
+  slotCounter: 0
 };
 tictactoe.drawBoard = function(size){
   tictactoe.size = size;
@@ -18,6 +19,8 @@ tictactoe.drawBoard = function(size){
 
 tictactoe.startGame = function(){
   $('td').on('click',function(e){
+    if($(this)[0].innerHTML) return false;
+    tictactoe.slotCounter++;
     var col = $(this)[0].cellIndex;
     var row = $(this).parent()[0].rowIndex;
     e.preventDefault();
@@ -32,8 +35,12 @@ tictactoe.startGame = function(){
     }
     $(this).html(tictactoe.marker);
     tictactoe.checkForWinner(row,col,tictactoe.marker);
+    if(tictactoe.slotCounter === 9){
+      alert('It\'s a draw!');
+      location.reload(false);
+    };
   })
-}
+};
 
 tictactoe.checkForWinner = function(row,col,marker){
   row = row + 1;
@@ -77,7 +84,6 @@ tictactoe.checkForWinner = function(row,col,marker){
       j--;
     }
     if(diags[''] !== true && Object.keys(diags).length === 1) tictactoe.winner(marker);
-    console.log('current',diags);
   };
   checkRows();
   checkCols();
@@ -87,9 +93,11 @@ tictactoe.checkForWinner = function(row,col,marker){
 
 tictactoe.winner = function(marker){
   if(marker === 'X'){
-    alert('Player A is the winner!!')
+    alert('Player A is the winner!!');
+    location.reload(false);
   } else {
-    alert('Player B is the winner!!')
+    alert('Player B is the winner!!');
+    location.reload(false);
   }
 };
 
